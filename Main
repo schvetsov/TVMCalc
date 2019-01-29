@@ -1,10 +1,8 @@
-import java.util.Scanner;				//import scanner
+import java.util.Scanner;
 
+public class Calculator{
 
-public class Calculator{				//define class
-
-	public static void main(String[] args){		//define main method
-
+	public static void main(String[] args){
 
 		Scanner myScanner = new Scanner(System.in);
 		double initialInvestment;
@@ -25,55 +23,47 @@ public class Calculator{				//define class
 		String annually="a";
 
 		try{
-			System.out.println("Welcome to the TimeValueofMoney Calculator!");				//print out welcome message
-			System.out.println("How much is your initial investment?");					//ask user for amount of initial investment
-
+		
+		//Asks a series of questions, and stores inputs in variables
+			System.out.println("Welcome to the TimeValueofMoney Calculator!");
+			System.out.println("How much is your initial investment?");
 			initialInvestment = myScanner.nextDouble();
-
-			System.out.println("Do you plan to invest periodically? Enter yes or no:");		//ask user if they plan to invest periodically
-
+			System.out.println("Do you plan to invest periodically? Enter yes or no:");
 			investPeriodically = myScanner.next();
 
-
 			if(investPeriodically.equals("yes")){
-
-
-				System.out.println("How big are your periodic payments?");				//if yes ask how much
-
+				System.out.println("How big are your periodic payments?");
 				periodicPayments = myScanner.nextDouble();
-
-
-				System.out.println("How often will you be investing? daily, monthly, semiannually, or annually");	//if yes ask how often (daily, monthly, yearly, bi-yearly)
-
+				System.out.println("How often will you be investing? daily, monthly, semiannually, or annually");
 				frequencyOfPayments = myScanner.next();
-
 			}
 
-			System.out.println("What type of interest is used? simple, compound, or continuous");		//ask user what type of interest is used (simple, compound, continuous)
-
+			System.out.println("What type of interest is used? simple, compound, or continuous");
 			typeOfInterest = myScanner.next();
-
-			System.out.println("Please enter the nominal interest rate:");					//ask user what annual rate of return to use
+			System.out.println("Please enter the nominal interest rate:");
 			APR = myScanner.nextDouble();
-
-			System.out.println("For how many years will you hold this investment?");			//ask user for how many years to hold this investment (n)
+			System.out.println("For how many years will you hold this investment?");
 			numberOfYears = myScanner.nextDouble();
-
-			double result=doCalc(initialInvestment, investPeriodically, periodicPayments, frequencyOfPayments, typeOfInterest, APR, numberOfYears, yes, no, simple, compound, continuous, daily, monthly, semiannually, annually);		//call calculation method
-
-			System.out.println("Your future value is: "+result);	//report result to user
+			
+		//Passes all inputs to calculation function
+			double result=doCalc(initialInvestment, investPeriodically, periodicPayments, frequencyOfPayments, 
+				typeOfInterest, APR, numberOfYears, yes, no, simple, compound, continuous, daily, monthly, 
+				semiannually, annually);
+				
+		//Prints out results
+			System.out.println("Your future value is: "+result);
 
 		}catch(Exception e){
-
-
 			System.out.println("Error while reading file line by line" + e.getMessage());
+		}
 
+	}
 
-		}				//end of try/catch
+//This is the function where all the calculations are done
 
-	}					//end main method
-
-	public static double doCalc(double initialInvestment, String investPeriodically, double periodicPayments, String frequencyOfPayments, String typeOfInterest, double APR, double numberOfYears, String yes, String no, String simple, String compound, String continuous, String daily, String monthly, String semiannually, String annually){//definecalculationmethod
+	public static double doCalc(double initialInvestment, String investPeriodically, double periodicPayments, 
+		String frequencyOfPayments, String typeOfInterest, double APR, double numberOfYears, String yes, String no, 
+		String simple, String compound, String continuous, String daily, String monthly, String semiannually, String annually){
 
 		double result=0;
 		double sum=0;
@@ -82,16 +72,11 @@ public class Calculator{				//define class
 		double d=0;
 
 		if(typeOfInterest.equals("simple")){
-
 			if(investPeriodically.equals("no")){
-
 				result = (initialInvestment*(1+(0.01)*APR*numberOfYears));
-
 			}else{
 				double initial =  (initialInvestment*(1+(0.01)*APR*numberOfYears));
-
 				while(numberOfYears>0){
-
 					double payment = periodicPayments*(1+(0.01)*APR*(numberOfYears-1));
 					sum = sum + payment;
 					numberOfYears--;
@@ -101,7 +86,6 @@ public class Calculator{				//define class
 		}
 
 		if(typeOfInterest.equals("compound")){
-
 			if(frequencyOfPayments.equals("daily")){
 				i = APR/365.0;
 			}else if(frequencyOfPayments.equals("monthly")){
@@ -121,18 +105,16 @@ public class Calculator{				//define class
 			}else{
 				n = numberOfYears;
 			}
-
 			if(investPeriodically.equals("no")){
-
 				result = (initialInvestment*Math.pow((1+(0.01)*i),n));
-
 			}else{
-				result = periodicPayments*(Math.pow((1+(0.01)*i),n)-1)/((0.01)*i) + (initialInvestment*Math.pow((1+(0.01)*i),n));
+				result = periodicPayments*(Math.pow((1+(0.01)*i),n)-1)/((0.01)*i) + 
+				(initialInvestment*Math.pow((1+(0.01)*i),n));
 			}
 		}
 
 		if(typeOfInterest.equals("continuous")){
-
+		
 			if(frequencyOfPayments.equals("daily")){
 				i = APR/365.0;
 			}else if(frequencyOfPayments.equals("monthly")){
